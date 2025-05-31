@@ -1,0 +1,104 @@
+\mode<presentation>  % 设置 Beamer 模式为 presentation 模式（用于演示文稿）
+
+\newif\ifbeamer@secheader  % 定义布尔变量 beamer@secheader，用于控制是否显示 section header
+\beamer@secheaderfalse     % 初始设置为 false（不显示）
+
+% \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}  %（可选）定义一个 Beamer 的选项用于开启 section header
+\ProcessOptionsBeamer      % 处理上面定义的选项
+
+% 使用外部主题 smoothbars，并设置页脚风格
+\useoutertheme[footline=authorinstitutetitle,subsection=false]{smoothbars}
+
+\makeatletter  % 开始允许使用 @ 字符命令（通常用于低级宏定义）
+
+% 自定义总页数与当前页的分隔符
+\newcommand{\frameofframes}{/}
+\newcommand{\setframeofframes}[1]{\renewcommand{\frameofframes}{#1}}
+
+% 自定义页脚 footline 的外观
+\setbeamertemplate{footline} 
+  {
+    \begin{beamercolorbox}[colsep=1.5pt]{upper separation line foot}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+      \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+      \hfill%
+      {\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in head/foot}\insertshortinstitute}%
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+      {\usebeamerfont{title in head/foot}\insertshorttitle}%
+      \hfill%
+      {\usebeamerfont{frame number}\usebeamercolor[fg]{frame number}\insertframenumber~\frameofframes~\inserttotalframenumber}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
+    \end{beamercolorbox}
+  }
+
+\makeatother  % 结束 @ 字符命令保护
+
+% 设置内部主题为 circles（标题圆点风格）
+\useinnertheme{circles}
+
+% 设置颜色为 cug 蓝色（可替换为其他 RGB）
+\xdefinecolor{cug}{rgb}{0.149,0.403,0.635}  % 定义 cug 蓝色
+
+% 设置各种 Beamer 元素的颜色
+\setbeamercolor{footline}{bg=cug}  % 页脚背景色为 cug 蓝
+\setbeamercolor{frametitle}{bg=cug,fg=white}  % 页面标题背景色为 cug 蓝，字体白色
+\setbeamercolor{title}{bg=cug}  % 总标题背景色
+
+% 设置标题字体大小
+\setbeamerfont{frametitle}{size=\large}
+
+% 设置参考文献项样式
+\setbeamertemplate{bibliography item}[text]
+% 设置图标题样式为带编号
+\setbeamertemplate{caption}[numbered]
+
+% 调整调色板（用于导航栏或其他小部件）
+\setbeamercolor{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor{palette secondary}{use=structure,fg=white,bg=structure.fg!75!black}
+\setbeamercolor{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+\setbeamercolor{palette quaternary}{fg=white,bg=structure.fg!50!black}
+
+\setbeamercolor{titlelike}{parent=palette primary}  % 让标题类颜色继承 primary 调色板
+
+% 块样式设置（代码块、例子块等）
+\setbeamercolor{block title}{bg=cug,fg=white}  % 标准块标题为 cug 蓝背景，白字
+\setbeamercolor*{block title example}{use={normal text,example text},bg=white,fg=cug}  % 示例块为白底蓝字
+
+% 其他颜色细节
+\setbeamercolor{fine separation line}{}  % 精细分割线（无颜色设置）
+\setbeamercolor{item projected}{fg=white}  % 幻灯片中投影的项目符号白色
+\setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+\setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+\setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+
+% 侧边栏中 section 与 subsection 的颜色设置
+\setbeamercolor{section in sidebar}{fg=brown}
+\setbeamercolor{section in sidebar shaded}{fg=grey}
+\setbeamercolor{subsection in sidebar}{fg=brown}
+\setbeamercolor{subsection in sidebar shaded}{fg=grey}
+
+\setbeamercolor{separation line}{}  % 分隔线颜色为空
+\setbeamercolor{sidebar}{bg=cug}  % 侧边栏背景为 cug 蓝
+\setbeamercolor{sidebar}{parent=palette primary}  % 继承 primary 调色板
+
+% 设置结构色（结构相关的颜色，如 itemize 点等）
+\setbeamercolor{structure}{fg=cug}
+
+% 每个 Section 开始前插入目录页
+\AtBeginSection[]{
+	\begin{frame}
+		\tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+	\end{frame}
+}
+% 每个 Subsection 开始前插入目录页
+\AtBeginSubsection[]{
+	\begin{frame}
+		\tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+	\end{frame}
+}
+
+\mode<all>  % 应用于所有模式
